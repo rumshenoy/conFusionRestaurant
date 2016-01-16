@@ -32,6 +32,7 @@
         var app = angular.module('confusionApp', []);
         app.controller('menuController', function () {
             this.tab = 1;
+            this.filterText = '';
             var dishes = [
                 {
                     name: 'Uthapizza',
@@ -71,11 +72,21 @@
                 }
             ];
             this.dishes = dishes;
-            this.select = function(setTab){
+            this.select = function (setTab) {
                 this.tab = setTab;
+
+                if (setTab == 2) {
+                    this.filterText = 'appetizer';
+                } else if (setTab == 3) {
+                    this.filterText = 'mains';
+                } else if (setTab == 4) {
+                    this.filterText = 'dessert';
+                } else {
+                    this.filterText = '';
+                }
             }
 
-            this.isSelected = function(currentTab){
+            this.isSelected = function (currentTab) {
                 return (this.tab == currentTab);
             }
 
@@ -99,7 +110,7 @@
             </ul>
             <div class="tab-content">
                 <ul class="media-list  tab-pane fade in active">
-                    <li class="media" ng-repeat="dish in menuCtrl.dishes">
+                    <li class="media" ng-repeat="dish in menuCtrl.dishes | filter:menuCtrl.filterText">
                         <div class="media-left media-middle">
                             <a href="#">
                                 <img class="media-object img-thumbnail"
